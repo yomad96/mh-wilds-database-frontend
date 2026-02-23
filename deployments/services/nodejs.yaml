@@ -1,0 +1,13 @@
+services:
+  nodejs:
+    image: ${NODE_IMAGE}
+    working_dir: /home/node/app
+    container_name: ${APP_NAME}_front
+    volumes:
+      - ../../app:/home/node/app:rw
+    command:
+      - /bin/sh
+      - '-c'
+      - 'npm install && npm run dev'
+    ports:
+      - "5173:5173"
