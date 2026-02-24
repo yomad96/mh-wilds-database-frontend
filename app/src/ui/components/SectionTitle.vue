@@ -2,6 +2,7 @@
   <a-page-header
       :title="props.title"
       :sub-title="props.subtitle ?? null"
+      :style="{ paddingLeft: '0' }"
   />
 </template>
 
