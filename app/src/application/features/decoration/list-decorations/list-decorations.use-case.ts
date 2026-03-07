@@ -13,7 +13,6 @@ export class ListDecorationsUseCase implements UseCaseInterface {
 
         try {
             let decorations = await this.decorationRepository.getDecorations()
-            console.log(decorations)
             if(decorations.length === 0) {
                 this.events.loadingIsEmpty()
             } else {

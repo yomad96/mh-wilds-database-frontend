@@ -1,7 +1,7 @@
 <template>
   <div>
     <section-title title="List Decorations"/>
-    <a-table :columns="columns" :dataSource="filteredDecorations" :loading="isLoading">
+    <a-table :columns="columns" :dataSource="tableData" :loading="isLoading">
       <template
           #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
       >
@@ -28,22 +28,12 @@
           </a-button>
         </div>
       </template>
-<!--      <template #customFilterIcon="{ column, filtered }">-->
-<!--        <SearchOutlined-->
-<!--            v-if="column.key === 'name'"-->
-<!--            :style="{ color: filtered ? '#1677ff' : undefined }"-->
-<!--        />-->
-<!--      </template>-->
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'skills'">
-          <div v-if="record.skills.length > 0" v-for="skill in record.skills">
-            {{ skill.name }}
-          </div>
+          {{ record.skillName }}
         </template>
         <template v-if="column.key === 'description'">
-          <div v-if="record.skills.length > 0" v-for="skill in record.skills">
-            {{ skill.description }}
-          </div>
+          {{ record.skillDescription }}
         </template>
       </template>
     </a-table>
@@ -54,30 +44,53 @@
 import { SearchOutlined } from '@ant-design/icons-vue';
 import SectionTitle from "@/ui/components/SectionTitle.vue";
 import {computed, h, onMounted, reactive, ref} from "vue";
-import {useListDecorationView} from "@/ui/composables/useListDecorationView.ts";
+import {useDecorationsViewComposable} from "@/ui/composables/useDecorationsViewComposable.ts";
 import {getListDecorationStatus} from "@/application/features/decoration/list-decorations/list-decorations.state.ts";
 
 const {
   getDecorations,
   filteredDecorations,
-} = useListDecorationView()
+} = useDecorationsViewComposable()
 
 const isLoading = computed(() => {
   return getListDecorationStatus.value === 'loading'
 })
 
-const skillsFilter = computed(() => {
-  let result: any[] = []
-  filteredDecorations.value.map((decoration) => {
-    decoration.skills?.map((skill) => {
-        if(result.filter((r) => r.value === skill.name).length <= 0)
-          result.push({
-            text: skill.name,
-            value: skill.name
-          })
+const tableData = computed(() => {
+  const rows: any[] = []
+
+  filteredDecorations.value.forEach((decoration: any) => {
+    const skills = decoration.skills?.length ? decoration.skills : [null]
+
+    skills.forEach((skill: any, index: number) => {
+      const skillName = skill?.name ?? ''
+      const skillDescription = skill?.description ?? ''
+
+      rows.push({
+        key: `${decoration.id}-${index}`,
+        name: decoration.name,
+        kind: decoration.kind,
+        skillName,
+        skillDescription,
+      })
     })
   })
-  return result
+
+  return rows
+})
+
+const skillsFilter = computed(() => {
+  return tableData.value
+      .filter((row: any) => !!row.skillName)
+      .reduce((result: any[], row: any) => {
+        if (result.every((item) => item.value !== row.skillName)) {
+          result.push({
+            text: row.skillName,
+            value: row.skillName,
+          })
+        }
+        return result
+      }, [])
 })
 
 const columns = computed(() => {
@@ -100,8 +113,8 @@ const columns = computed(() => {
       key: 'skills',
       filters: skillsFilter.value,
       filterSearch: true,
-      onFilter: (value, record) => {
-        return record.skills.some(skill => skill.name === value)
+      onFilter: (value: any, record: any) => {
+        return record.skillName === value
       }
     },
     {
