@@ -8,8 +8,6 @@ const repository = new DecorationApiRepository();
 const listDecorationsEvents = new ListDecorationsEvents(ListDecorationState)
 const listDecorationsUseCase = new ListDecorationsUseCase(repository, listDecorationsEvents)
 
-
-
 export const DecorationContainer = {
     listDecorationsUseCase: listDecorationsUseCase,
 }
