@@ -1,3 +1,5 @@
+import {getStoredLanguage} from "@/application/language.ts";
+
 export interface ApiResponse<T> {
     data: T | null
     error: Error | null
@@ -10,9 +12,13 @@ export function useApiComposable(baseUrl: string) {
         options: RequestInit = {}
     ): Promise<ApiResponse<T>> {
         try {
-            const response = await fetch(`${baseUrl}${endpoint}`, {
+            const language = getStoredLanguage()
+            const url = `${baseUrl}${endpoint}${endpoint.includes('?') ? '&' : '?'}lang=${language}`
+
+            const response = await fetch(url, {
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept-Language': language,
                     ...(options.headers || {})
                 },
                 ...options
