@@ -1,7 +1,7 @@
 <template>
   <div>
     <section-title title="List Decorations"/>
-    <a-table :columns="columns" :dataSource="tableData" :loading="isLoading">
+    <a-table :columns="columns" :dataSource="tableData" :loading="isLoading" :pagination="{ pageSize: 50 }">
       <template
           #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
       >
@@ -102,6 +102,11 @@ const columns = computed(() => {
       customFilterDropdown: true,
       filterIcon: (filtered: boolean) =>
           h(SearchOutlined, { style: { color: filtered ? '#1677ff' : undefined } }),
+      onFilter: (value: any, record: any) => {
+        return String(record.name ?? '')
+            .toLowerCase()
+            .includes(String(value ?? '').toLowerCase())
+      },
     },
     {
       title: 'Kind',
