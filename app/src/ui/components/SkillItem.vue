@@ -1,10 +1,23 @@
 <template>
   <a-card>
-    {{ skill.name }} - {{ skill.level}}
+    <a-flex align="center" justify="space-between">
+      <a-flex vertical gap="small">
+        {{ skill.name }}
+        <skill-bar-level
+            :level="skill.level"
+            :max-level="skill.maxLevel"
+        />
+      </a-flex>
+      <a-flex align="center">
+        Level {{ skill.level }}
+      </a-flex>
+    </a-flex>
   </a-card>
 </template>
 
 <script setup lang="ts">
+import SkillBarLevel from "@/ui/components/SkillBarLevel.vue";
+
 const props = defineProps<{
   skill: {
     name: string,
