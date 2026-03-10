@@ -16,12 +16,15 @@
         <a-menu-item key="3">
           <router-link to="/skills">Skills</router-link>
         </a-menu-item>
-        <a-menu-item key="4" @click="toggleLanguage">
+        <a-menu-item key="4">
+          <router-link to="/builder">Builder</router-link>
+        </a-menu-item>
+        <a-menu-item key="5" @click="toggleLanguage">
           {{ currentLanguage === 'en' ? 'anglais' : 'fr' }}
         </a-menu-item>
       </a-menu>
     </a-layout-header>
-    <a-layout-content :style="{ padding: '0 50px', marginTop: '64px', minHeight: 'calc(100vh - 64px)' }">
+    <a-layout-content :style="{ padding: '25px 50px', marginTop: '64px', minHeight: 'calc(100vh - 64px)' }">
       <router-view />
     </a-layout-content>
   </a-layout>
