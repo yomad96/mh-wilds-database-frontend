@@ -13,14 +13,18 @@ export function useApiComposable(baseUrl: string) {
     ): Promise<ApiResponse<T>> {
         try {
             const language = getStoredLanguage()
-            const url = `${baseUrl}${endpoint}${endpoint.includes('?') ? '&' : '?'}lang=${language}`
+            const url = `${baseUrl}${endpoint}`
+            // const url = `${baseUrl}${endpoint}${endpoint.includes('?') ? '&' : '?'}lang=${language}`
+            const headers = new Headers(options.headers || {})
+
+            if (!headers.has('Content-Type') && !(options.body instanceof FormData)) {
+                headers.set('Content-Type', 'application/json')
+            }
+            // headers.set('Accept-Language', language)
 
             const response = await fetch(url, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Language': language,
-                    ...(options.headers || {})
-                },
+                credentials: 'include',
+                headers,
                 ...options
             })
 
@@ -30,7 +34,10 @@ export function useApiComposable(baseUrl: string) {
                 throw new Error(`HTTP error ${status}`)
             }
 
-            const data: T = await response.json()
+            const contentType = response.headers.get('Content-Type') ?? ''
+            const data = contentType.includes('application/json')
+                ? await response.json() as T
+                : null
 
             return {
                 data,

@@ -1,9 +1,10 @@
 import type {DecoratorRepositoryInterface} from "@/domain/repositories/decorationRepositoryInterface.ts";
 import type {Decoration} from "@/domain/entities/decoration.ts";
+import {getApiBaseUrl} from "@/infrastructure/api.config.ts";
 import {useApiComposable} from "@/infrastructure/useApiComposable.ts";
 
 export class DecorationApiRepository implements DecoratorRepositoryInterface {
-    private api = useApiComposable('http://localhost:8000/api')
+    private api = useApiComposable(getApiBaseUrl('/api'))
 
     async getDecorations(): Promise<Decoration[]> {
         try {

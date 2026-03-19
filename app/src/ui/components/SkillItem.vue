@@ -5,7 +5,7 @@
         {{ skill.name }}
         <skill-bar-level
             :level="skill.level"
-            :max-level="skill.maxLevel"
+            :max-level="skill.maxLevel ?? skill.level"
         />
       </a-flex>
       <a-flex align="center">
@@ -22,6 +22,7 @@ const props = defineProps<{
   skill: {
     name: string,
     level: number,
+    maxLevel?: number,
   }
 }>()
 </script>

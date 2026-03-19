@@ -4,6 +4,8 @@ import HomeWiew from "@/ui/views/HomeWiew.vue";
 import CharmsView from "@/ui/views/CharmsView.vue";
 import SkillsView from "@/ui/views/SkillsView.vue";
 import BuilderView from "@/ui/views/BuilderView.vue";
+import LoginView from "@/ui/views/LoginView.vue";
+import RegisterView from "@/ui/views/RegisterView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,21 +35,16 @@ const router = createRouter({
             name: 'builder',
             component: BuilderView,
         },
-        // {
-        //     path: '/create',
-        //     name: 'createAppareance',
-        //     component: CreateAppareanceView,
-        // },
-        // {
-        //     path: '/login',
-        //     name: 'login',
-        //     component: LoginView,
-        // },
-        // {
-        //     path: '/register',
-        //     name: 'register',
-        //     component: RegisterView,
-        // },
+        {
+            path: '/login',
+            name: 'login',
+            component: LoginView,
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: RegisterView,
+        },
     ],
 })
 
