@@ -1,10 +1,9 @@
 import {useApiComposable} from "@/infrastructure/useApiComposable.ts";
 import type {CharmRepositoryInterface} from "@/domain/repositories/charmRepositoryInterface.ts";
 import type {Charm} from "@/domain/entities/charm.ts";
-import {getApiBaseUrl} from "@/infrastructure/api.config.ts";
 
 export class CharmApiRepository implements CharmRepositoryInterface {
-    private api = useApiComposable(getApiBaseUrl('/api'))
+    private api = useApiComposable('http://localhost:8000/api')
 
     async getCharms(): Promise<Charm[]> {
         try {

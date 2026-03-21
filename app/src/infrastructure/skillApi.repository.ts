@@ -1,10 +1,9 @@
 import {useApiComposable} from "@/infrastructure/useApiComposable.ts";
 import type {SkillRepositoryInterface} from "@/domain/repositories/skillRepositoryInterface.ts";
 import type {Skill} from "@/domain/entities/skill.ts";
-import {getApiBaseUrl} from "@/infrastructure/api.config.ts";
 
 export class SkillApiRepository implements SkillRepositoryInterface {
-    private api = useApiComposable(getApiBaseUrl('/api'))
+    private api = useApiComposable('http://localhost:8000/api')
 
     async getSkills(): Promise<Skill[]> {
         try {
