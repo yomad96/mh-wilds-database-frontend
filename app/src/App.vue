@@ -19,7 +19,10 @@
         <a-menu-item key="4">
           <router-link to="/builder">Builder</router-link>
         </a-menu-item>
-        <a-menu-item key="5" @click="toggleLanguage">
+        <a-menu-item key="5">
+          <router-link to="/register">Register</router-link>
+        </a-menu-item>
+        <a-menu-item key="6" @click="toggleLanguage">
           {{ currentLanguage === 'en' ? 'anglais' : 'fr' }}
         </a-menu-item>
       </a-menu>
